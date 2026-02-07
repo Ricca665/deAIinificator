@@ -1,4 +1,3 @@
-
 import shutil
 from utils import *
 
@@ -42,5 +41,5 @@ hosts.write("#endofpatch\n")
 hosts.close()
 
 ApplyChanges() # aka flush the dns
-
+print("Finished! Restart your browsers for changes to apply!")
 
