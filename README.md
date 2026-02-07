@@ -1,5 +1,5 @@
 # deAIinificator
-<img width=480 height=270 src="/pics/water.png">
+<img width=480 height=270 alt="yes this is not AI generated i literally made this in paint.net in 20 seconds :sob:" src="/pics/water.png">
 this tool tries to apply patches to block AI stuff
 currently implemented stuff:
 
