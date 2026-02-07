@@ -1,4 +1,5 @@
 # deAIinificator
+<img width=480 height=270 src="/pics/water.png">
 this tool tries to apply patches to block AI stuff
 currently implemented stuff:
 
