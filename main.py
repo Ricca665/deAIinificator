@@ -1,0 +1,43 @@
+
+import shutil
+import platform
+from utils import *
+
+isAdmin : bool = is_admin()
+
+isWindows : bool = (platform.system() == "Windows")
+winDir : str = os.environ["WINDIR"]
+AI_urls : list = get_ai_list()
+file_dir : str = os.path.dirname(__file__)
+
+
+if not isWindows:
+    print("This tool is only supported on Windows!")
+    input()
+    exit(1)
+
+if not isAdmin:
+    print("Not running as admin!")
+    input()
+    exit(1)
+
+hosts_file_path = winDir+"\\System32\\drivers\\etc\\hosts"
+
+CheckPatchElseContinue(hosts_file_path)
+RemovePatch(hosts_file_path)
+
+print("Backing up file")
+shutil.copy(hosts_file_path, file_dir)
+
+hosts =  open(hosts_file_path, "a")
+hosts.write(f"\n#patch{version}\n")
+
+for i in AI_urls:
+    hosts.write(f"{i} 127.0.0.1\n")
+
+hosts.write("#endofpatch\n")
+hosts.close()
+
+ApplyChanges() # aka flush the dns
+
+
