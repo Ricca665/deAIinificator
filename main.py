@@ -2,7 +2,6 @@ import shutil
 from utils import *
 
 isAdmin : bool = is_admin()
-
 isWindows : bool = is_windows()
 
 try:
@@ -23,7 +22,6 @@ if not isAdmin:
     print("Not running as admin!")
     input()
     exit(1)
-
 
 CheckPatchElseContinue(hosts_file_path)
 RemovePatch(hosts_file_path)
