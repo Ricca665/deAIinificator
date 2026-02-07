@@ -1,27 +1,30 @@
 
 import shutil
-import platform
 from utils import *
 
 isAdmin : bool = is_admin()
 
-isWindows : bool = (platform.system() == "Windows")
-winDir : str = os.environ["WINDIR"]
+isWindows : bool = is_windows()
+
+try:
+    winDir : str = os.environ["WINDIR"]
+except:
+    winDir : str = ""
+
+hosts_file_path = winDir+"\\System32\\drivers\\etc\\hosts"
+
 AI_urls : list = get_ai_list()
 file_dir : str = os.path.dirname(__file__)
 
-
 if not isWindows:
-    print("This tool is only supported on Windows!")
-    input()
-    exit(1)
+    print("Support on linux is experimental, be warned!")
+    hosts_file_path = "/etc/hosts"
 
 if not isAdmin:
     print("Not running as admin!")
     input()
     exit(1)
 
-hosts_file_path = winDir+"\\System32\\drivers\\etc\\hosts"
 
 CheckPatchElseContinue(hosts_file_path)
 RemovePatch(hosts_file_path)
@@ -33,7 +36,7 @@ hosts =  open(hosts_file_path, "a")
 hosts.write(f"\n#patch{version}\n")
 
 for i in AI_urls:
-    hosts.write(f"{i} 127.0.0.1\n")
+    hosts.write(f"127.0.0.1 {i}\n")
 
 hosts.write("#endofpatch\n")
 hosts.close()

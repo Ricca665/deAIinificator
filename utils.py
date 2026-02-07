@@ -1,6 +1,8 @@
 from ctypes import windll
 from sys import exit
+import platform
 import os
+from time import sleep
 
 version = 1
 
@@ -69,6 +71,8 @@ def RemovePatch(file : str) -> None:
         hosts.writelines(lines)
         hosts.close()
 
+def is_windows() -> bool:
+    return (platform.system() == "Windows")
 
 def GetPatchVersion(file) -> int:
     hosts_read = open(file, "r")
@@ -92,16 +96,26 @@ def GetPatchVersion(file) -> int:
 
 
 def ApplyChanges() -> None:
-    os.system("ipconfig /flushdns")
+    isWin = is_windows()
+    
+    if isWin:
+        sleep(0.5)
+        os.system("ipconfig /flushdns")
+        sleep(0.5)
+        os.system("nbtstat -R")
+        sleep(0.5)
+        os.system('start PowerShell.exe -WindowStyle Hidden -NoProfile -NoLogo -Command "try { $ServicePID = (get-wmiobject win32_service | where { $_.name -eq \'Dnscache\'}).processID; Stop-Process $ServicePID -Force } catch {}"')
+    else:
+        os.system("/etc/init.d/nscd restart")
+        sleep(0.5)
 
 def get_ai_list() -> list:
     AIs : list = [
                   #OpenAI
                   "chatgpt.com", 
-                  "openai.com"
+                  "openai.com",
                   "chat.openai.com",
                   "sora.com",
-                  "midjourney.com",
                   
                   # uhhhh
                   "lindy.ai",
@@ -109,10 +123,15 @@ def get_ai_list() -> list:
                   "jasper.ai",
                   "copy.ai",
                   
-                  # ESPECIALLY coding & IDE
+                  # coding & IDE
                   "claude.ai",
                   "cursor.com",
-                  
+                  "api.individual.githubcopilot.com", # an api
+                  "gemini.google.com",
+
+                  #POS
+                  "midjourney.com",
+
                   # random ones that i found 
                   "synthesia.io",
                   "play.ht", 
@@ -121,7 +140,8 @@ def get_ai_list() -> list:
                   "app.obviously.ai",
                   "make.com",
                   "intercom.com",
-                  "zapier.com"
+                  "zapier.com",
+                  "elevenlabs.com"
                 ]
 
     return AIs
