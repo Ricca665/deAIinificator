@@ -31,7 +31,7 @@ shutil.copy(hosts_file_path, file_dir)
 
 # write to the hosts file
 hosts = open(hosts_file_path, "a")
-hosts.write(f"\n#patch{version}\n")
+hosts.write(f"#patch{version}\n")
 
 for i in AI_urls:
     hosts.write(f"127.0.0.1 {i}\n")
