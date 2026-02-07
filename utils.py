@@ -7,11 +7,24 @@ from time import sleep
 version = 1
 
 def is_admin() -> bool:
+    """
+    is_admin
+    
+    :return: is python file running as admin
+    :rtype: bool
+    """
     is_admin = windll.shell32.IsUserAnAdmin() != 0
 
     return is_admin
 
 def CheckPatchElseContinue(file : str) -> None:
+    """
+    checks if patch is already applied and if it is asks the user if he wants to erase it
+    
+    :param file: file path to the host file
+    :type file: str
+    """
+
     hosts_read = open(file, "r")
     lines = hosts_read.readlines()
     hosts_read.close()
@@ -40,6 +53,12 @@ def CheckPatchElseContinue(file : str) -> None:
 
 
 def RemovePatch(file : str) -> None:
+    """
+    removes the patch
+    
+    :param file: file path to host file
+    :type file: str
+    """
     hosts_read = open(file, "r")
     lines = hosts_read.readlines()
     hosts_read.close()
@@ -74,9 +93,23 @@ def RemovePatch(file : str) -> None:
     hosts.close()
 
 def is_windows() -> bool:
+    """
+    checks if the computer is running windows
+    
+    :return: if it's running windows
+    :rtype: bool
+    """
     return (platform.system() == "Windows")
 
 def GetPatchVersion(file : str) -> int:
+    """
+    gets the currently applied version to the hosts file
+
+    :param file: file path to hosts file
+    :type file: str
+    :return: version number as integer
+    :rtype: int
+    """
     hosts_read = open(file, "r")
     lines = hosts_read.readlines()
     hosts_read.close()
@@ -98,20 +131,28 @@ def GetPatchVersion(file : str) -> int:
 
 
 def ApplyChanges() -> None:
-    isWin = is_windows()
+    """
+    runs commands to flush DNS and restart the DNS server
+    """
 
+    isWin = is_windows()
+    commands = ["ipconfig /flushdns", "nbtstat -R", 'start PowerShell.exe -WindowStyle Hidden -NoProfile -NoLogo -Command "try { $ServicePID = (get-wmiobject win32_service | where { $_.name -eq \'Dnscache\'}).processID; Stop-Process $ServicePID -Force } catch {}"']
     if isWin:
-        sleep(0.5)
-        os.system("ipconfig /flushdns")
-        sleep(0.5)
-        os.system("nbtstat -R")
-        sleep(0.5)
-        os.system('start PowerShell.exe -WindowStyle Hidden -NoProfile -NoLogo -Command "try { $ServicePID = (get-wmiobject win32_service | where { $_.name -eq \'Dnscache\'}).processID; Stop-Process $ServicePID -Force } catch {}"')
-    else:
+        for i in commands:
+            os.system(i)
+            sleep(1)
+
+    else: # linux
         os.system("/etc/init.d/nscd restart")
         sleep(0.5)
 
 def get_ai_list() -> list:
+    """
+    list of AI sites
+
+    :return: list with AI sites
+    :rtype: list[Any]
+    """
     AIs : list = [
                   #OpenAI
                   "chatgpt.com", 

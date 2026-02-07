@@ -29,7 +29,8 @@ RemovePatch(hosts_file_path)
 print("Backing up file")
 shutil.copy(hosts_file_path, file_dir)
 
-hosts =  open(hosts_file_path, "a")
+# write to the hosts file
+hosts = open(hosts_file_path, "a")
 hosts.write(f"\n#patch{version}\n")
 
 for i in AI_urls:
@@ -39,5 +40,5 @@ hosts.write("#endofpatch\n")
 hosts.close()
 
 ApplyChanges() # aka flush the dns
-print("Finished! Restart your browsers for changes to apply!")
+print("Finished! Restart your browsers to apply changes!")
 
