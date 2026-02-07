@@ -11,7 +11,7 @@ def is_admin() -> bool:
 
     return is_admin
 
-def CheckPatchElseContinue(file) -> None:
+def CheckPatchElseContinue(file : str) -> None:
     hosts_read = open(file, "r")
     lines = hosts_read.readlines()
     hosts_read.close()
@@ -74,7 +74,7 @@ def RemovePatch(file : str) -> None:
 def is_windows() -> bool:
     return (platform.system() == "Windows")
 
-def GetPatchVersion(file) -> int:
+def GetPatchVersion(file : str) -> int:
     hosts_read = open(file, "r")
     lines = hosts_read.readlines()
     hosts_read.close()
@@ -97,7 +97,7 @@ def GetPatchVersion(file) -> int:
 
 def ApplyChanges() -> None:
     isWin = is_windows()
-    
+
     if isWin:
         sleep(0.5)
         os.system("ipconfig /flushdns")
@@ -126,7 +126,7 @@ def get_ai_list() -> list:
                   # coding & IDE
                   "claude.ai",
                   "cursor.com",
-                  "api.individual.githubcopilot.com", # an api
+                  "api.individual.githubcopilot.com", # an api for copilot
                   "gemini.google.com",
 
                   #POS
@@ -141,7 +141,8 @@ def get_ai_list() -> list:
                   "make.com",
                   "intercom.com",
                   "zapier.com",
-                  "elevenlabs.com"
+                  "elevenlabs.com",
+                  "copilot.microsoft.com"
                 ]
 
     return AIs
