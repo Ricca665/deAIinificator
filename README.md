@@ -8,5 +8,4 @@ currently implemented stuff:
 # How does this work
 this tool uses the [Hosts file](https://en.wikipedia.org/wiki/Hosts_(file)), and what you can do is use this syntax to block ANY network request to anything you like by rerouting it to 127.0.0.1 (aka your pc)
 
-please suggest a better description for this
-
+please suggest a better description for this i don't know what to write
