@@ -62,14 +62,16 @@ def RemovePatch(file : str) -> None:
 
     # begin and end are 0 indexed btw
 
-    if begin != -1 and end != -1:
-        for i in range(len(lines)):
-            if (i >= begin and i <= end):
-                lines[i] = ""
+    if begin == -1 or end == -1:
+        return
 
-        hosts = open(file, "w")
-        hosts.writelines(lines)
-        hosts.close()
+    for i in range(len(lines)):
+        if (i >= begin and i <= end):
+            lines[i] = ""
+
+    hosts = open(file, "w")
+    hosts.writelines(lines)
+    hosts.close()
 
 def is_windows() -> bool:
     return (platform.system() == "Windows")
