@@ -2,7 +2,7 @@
 this tool tries to apply patches to block AI stuff
 currently implemented stuff:
 
-- [ ] Block AI websites and APIs
+- [x] Block AI websites and APIs
 
 
 # How does this work
